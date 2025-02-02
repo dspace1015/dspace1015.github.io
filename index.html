@@ -1,5 +1,79 @@
 <!DOCTYPE html>
-<html>
-    <h1>work plz?</h1>
-    <p>maybe...?</p>
+<html lang = "en">
+<head>
+    <title>David's Website</title>
+    <link rel="icon" href="Davidswebsite/Smile.bmp" type="image/x-icon"/>
+</head>
+<h1>David's Website</h1>
+<h2>Intro</h2>
+<p>Hello there! Welcome to my Website.
+This is where I will explore the different things you can find in html, and experementing with having multiple pages. Scroll down to see my list of games.
+</p>
+<h2>Links</h2>
+</li>
+    <li><a href="https://scratch.mit.edu/users/dspace1015/">My Scratch Account</a></li>
+    <li><a href="https://scratch.mit.edu/discuss/youtube/dQw4w9WgXcQ/">I don't have any other websites/socialmedia/</a></li>
+</li>
+    
+
+<button onclick="window.location.href='https://scratch.mit.edu/discuss/youtube/dQw4w9WgXcQ';">Don't Press Me</button>
+<p> </p><p> </p>
+<canvas id="myCanvas" width="200" height="200" style="border:1px solid grey"></canvas>
+
+<script>
+const myCanvas = document.getElementById("myCanvas");
+const screen = myCanvas.getContext("2d");
+var x = 0;
+var y = 0;
+var t = false;
+var Key = 0;
+var dt = 0;
+screen.transform(1,0,0,-1,100,100);
+
+function animate(currentTime) {
+    // time handling
+    var currentTime = new Date().getTime()/1000;
+    var dt = currentTime - _lastRAF ; // time elapsed since last frame
+    // call again please
+    requestAnimationFrame(animate); 
+    // erase
+    screen.clearRect(-screen.canvas.width/2,-screen.canvas.height/2,screen.canvas.width, screen.canvas.height);
+    // update
+    document.body.addEventListener('keydown', function (event) {
+        const key = event.key;
+        switch (key) {
+            case "Enter":
+                Key = 1;
+                break;
+        }
+    });
+    document.body.addEventListener('keyup', function (event) {
+        const key = event.key;
+        switch (key) {
+            case "Enter":
+                Key = 0;
+                break;
+        }
+    });
+    if (Key == 1){
+        x -= dt;
+    }
+    x += dt;
+    screen.fillStyle = "red";
+    screen.fillRect(90*Math.cos(2*Math.PI*x)-5,90*Math.sin(2*Math.PI*x)-5,10,10);
+    _lastRAF = currentTime;
+}
+ function launchAnimation() {
+    requestAnimationFrame(_launchAnimationNow);
+    function _launchAnimationNow(currentTime) {
+        currentTime =  new Date().getTime()/1000;
+        _lastRAF = currentTime;
+        requestAnimationFrame(animate);
+    }
+}
+launchAnimation();
+</script>
+<h2>More Links to games made with html:</h2>
+<li><a href="DavidsFirstGame.html">Blocky Thing with jetpack</a></li>
+
 </html>
