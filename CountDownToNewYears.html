@@ -35,7 +35,16 @@ var y;
 var d;
 var T;
 var Rsun = 695700;
-var newyears = 1767247200 - 946706400 - 6*3600 + 60*TimeZone -86400;
+T = new Date();
+if(T.getMonth()==0){
+    var yr = T.getFullYear();
+}else{
+    var yr = String(parseFloat(T.getFullYear())+1);
+}
+console.log(yr);
+var newyears = new Date(yr+"-01-01T00:00:00.000");
+newyears = newyears.getTime()/1000;
+newyears += - 946706400.0 - 86400;
 function cos(x){
     return Math.cos(x*Math.PI/180);
 }
@@ -77,10 +86,20 @@ function animate(currentTime) {
     var Nx = -(a3*(1-e3**2)*cos(180 - (360*(newyears-v3)/(p3)) - A3))/(1 + e3*cos(180 - (360*(newyears-v3))/(p3))) - 2*e3*a3*cos(A3);
     var Ny =  (a3*(1-e3**2)*sin(180 - (360*(newyears-v3)/(p3)) - A3))/(1 + e3*cos(180 - (360*(newyears-v3))/(p3))) - 2*e3*a3*sin(A3);
     d = Math.sqrt(Math.pow(x-Nx,2)+Math.pow(y-Ny,2))
-    Td = -Math.floor(Math.abs(T-newyears)/86400)*(T-newyears)/Math.abs(T-newyears);
-    Th = Math.floor(Math.abs(T-newyears)/3600 % 24);
-    Tm = Math.floor(Math.abs(T-newyears)/60 % 60);
-    Ts = Math.floor(Math.abs(T-newyears) % 60);
+    var Trel = T-newyears;
+    if(T-newyears>0){
+        Trel = Math.abs(Trel);
+        var Td = -Math.floor(Trel/86400)
+        var Th = Math.floor(Trel/3600 % 24);
+        var Tm = Math.floor(Trel/60 % 60);
+        var Ts = Math.floor(Trel % 60);
+    }else{
+        Trel = Math.abs(Trel)+1;
+        var Td = Math.floor(Trel/86400)
+        var Th = Math.floor(Trel/3600 % 24);
+        var Tm = Math.floor(Trel/60 % 60);
+        var Ts = Math.floor(Trel % 60);
+    }
     //update Screen
     screen.setTransform(1,0,0,-1,screen.canvas.width/2,screen.canvas.height/2);
     //clear screen
@@ -168,7 +187,7 @@ function animate(currentTime) {
     screen.fillText("Earth",(x-camx)*zoom,-(y-camy-R3)*zoom+1);
     screen.setTransform(-Nx/Math.sqrt(Nx*Nx+Ny*Ny),Ny/Math.sqrt(Nx*Nx+Ny*Ny),-Ny/Math.sqrt(Nx*Nx+Ny*Ny),-Nx/Math.sqrt(Nx*Nx+Ny*Ny),(Nx-camx)*zoom+screen.canvas.width/2,-(Ny-camy)*zoom+screen.canvas.height/2);
     screen.fillStyle = "red";
-    screen.fillText("Earth at 2026",0,3);
+    screen.fillText("Earth at 2027",0,5);
     screen.setTransform(1,0,0,1,0,0);
     screen.textBaseline = "alphabetic";
     screen.textAlign = "left";
